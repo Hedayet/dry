@@ -1,1 +1,1 @@
-# dry
+DRY = Don't repeat yourself.
