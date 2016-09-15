@@ -1,40 +1,32 @@
-const int MAXM = 1e5+1; // 1 for imp.
-int tree[MAXM * 8];
+// Thanks to AI.Cash
+// Implementation from http://codeforces.com/blog/entry/18051.
 
-int update(int node, int l, int r, int i, int val)
-{
+const int N = 1e5;  // limit for array size
+int n;  // array size
+int t[2 * N];
 
-	if(r < i || l > i) {
-		return tree[node];
-	}
-	if(l == r) {
-		tree[node] = val;
-		return val;
-	}
-	
-	int p = update(node*2, l, (l+r)/2, i, val);
-	int q = update(node*2+1, (l+r)/2+1, r, i, val);
-	tree[node] = max(p, q);
-	return tree[node];
+void build() {  // build the tree
+  for (int i = n - 1; i > 0; --i) t[i] = t[i<<1] + t[i<<1|1];
 }
 
-int query(int node, int l, int r, int beg, int end)
-{
-	if(r < beg || l > end) {
-		return 1;
-	}
-	if(beg <= l && r <= end) {
-		return tree[node];
-	}
-	return max(query(node*2, l, (l+r)/2, beg, end), query(node*2+1, (l+r)/2+1, r, beg, end));
+void modify(int p, int value) {  // set value at position p
+  for (t[p += n] = value; p > 1; p >>= 1) t[p>>1] = t[p] + t[p^1];
 }
 
-// driver code
-int main()
-{
-	// to update the value at position pos with value val.
-	// update(1, 1, N, pos, val);
-	//
-	// to query the max between left and right
-	// query(1, 1, N, left, right);
+int query(int l, int r) {  // sum on interval [l, r)
+  int res = 0;
+  for (l += n, r += n; l < r; l >>= 1, r >>= 1) {
+    if (l&1) res += t[l++];
+    if (r&1) res += t[--r];
+  }
+  return res;
+}
+
+int main() {
+  scanf("%d", &n);
+  for (int i = 0; i < n; ++i) scanf("%d", t + n + i);
+  build();
+  modify(0, 1);
+  printf("%d\n", query(3, 11));
+  return 0;
 }
