@@ -97,8 +97,8 @@ private:
 // driver
 int main() {
   std::ios_base::sync_with_stdio(false);
-  Matrix lhs = Matrix({{2, 4, 6}, {8, 10, 12}});
-  Matrix rhs = Matrix({{1, 2, 3}, {5, 6, 7}, {9, 10, 11}});
+  Matrix<int> lhs{{{2, 4, 6}, {8, 10, 12}}};
+  Matrix<int> rhs{{{1, 2, 3}, {5, 6, 7}, {9, 10, 11}}};
   for (int i = 1; i < 10; i++) {
     auto ret = rhs.bigPow(i, 100000);
     ret.print();
