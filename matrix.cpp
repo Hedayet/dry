@@ -10,7 +10,7 @@ public:
   }
   Matrix(const vector<vector<int>> &vec) { matrix = vec; }
 
-  void print(bool err_mode = true) {
+  void print(bool err_mode = true) const {
     for (auto row : matrix) {
       for (auto item : row) {
         if (err_mode) {
@@ -70,16 +70,29 @@ public:
     return ret;
   }
 
-  Matrix bigPow(int p, int mod) const {
-    if (p == 0) {
-      return *this;
-    }
+  Matrix bigPow(long long p, const int mod) const {
+    if (!p) {
+      return this->getUnitMatrix();
+    };
     if (p % 2) {
       return bigPow(p - 1, mod).mul(*this, mod);
     } else {
       Matrix ret = this->bigPow(p / 2, mod);
       return ret.mul(ret, mod);
     }
+  }
+
+  static Matrix getUnitMatrix(int n) {
+    vector<vector<int>> mat(n, vector<int>(n, 0));
+    for (int i = 0; i < n; ++i) {
+      mat[i][i] = 1;
+    }
+    return Matrix(mat);
+  }
+
+  Matrix getUnitMatrix() const {
+    const int n = this->numRows();
+    return getUnitMatrix(n);
   }
 
 private:
