@@ -32,7 +32,7 @@ public:
   T get(int r, int c) const { return matrix[r][c]; }
   vector<T> &operator[](int r) { return matrix[r]; }
 
-  Matrix operator*(const Matrix &rhs) {
+  Matrix operator*(const Matrix &rhs) const {
     if (matrix[0].size() != rhs.numRows()) {
       throw std::invalid_argument(
           "Incompatible dimensions for matrix multiplication");
