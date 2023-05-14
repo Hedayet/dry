@@ -32,6 +32,41 @@ public:
   T get(int r, int c) const { return matrix[r][c]; }
   vector<T> &operator[](int r) { return matrix[r]; }
 
+  Matrix operator+(const Matrix &rhs) const {
+    if (numRows() != rhs.numRows() || numCols() != rhs.numCols()) {
+      throw std::invalid_argument(
+          "Incompatible dimensions for matrix addition");
+    }
+
+    Matrix ret(matrix);
+    for (int i = 0; i < numRows(); ++i) {
+      for (int j = 0; j < numCols(); ++j) {
+        ret[i][j] += rhs.get(i, j);
+      }
+    }
+
+    return ret;
+  }
+
+  Matrix add(const Matrix &rhs, const int MOD) const {
+    if (numRows() != rhs.numRows() || numCols() != rhs.numCols()) {
+      throw std::invalid_argument(
+          "Incompatible dimensions for matrix addition");
+    }
+
+    Matrix result(matrix);
+    for (int i = 0; i < numRows(); ++i) {
+      for (int j = 0; j < numCols(); ++j) {
+        result[i][j] += rhs.get(i, j);
+        if (result[i][j] >= MOD) {
+          result[i][j] -= MOD;
+        }
+      }
+    }
+
+    return result;
+  }
+
   Matrix operator*(const Matrix &rhs) const {
     if (matrix[0].size() != rhs.numRows()) {
       throw std::invalid_argument(
@@ -66,6 +101,7 @@ public:
     }
     return ret;
   }
+
   Matrix bigPow(long long p, const int mod) const {
     if (!p) {
       return this->getUnitMatrix();
