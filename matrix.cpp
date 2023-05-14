@@ -3,12 +3,10 @@
 
 using namespace std;
 
-class Matrix {
+template <typename T> class Matrix {
 public:
-  template <typename T> Matrix(T n, T m) {
-    matrix = vector<vector<int>>(n, vector<int>(m, 0));
-  }
-  Matrix(const vector<vector<int>> &vec) { matrix = vec; }
+  Matrix(T n, T m) { matrix = vector<vector<T>>(n, vector<T>(m, 0)); }
+  Matrix(const vector<vector<T>> &vec) { matrix = vec; }
 
   void print(bool err_mode = true) const {
     for (auto row : matrix) {
@@ -31,8 +29,8 @@ public:
     return matrix.empty() ? 0 : matrix[0].size();
   }
 
-  template <typename T> int get(T r, T c) const { return matrix[r][c]; }
-  vector<int> &operator[](int r) { return matrix[r]; }
+  T get(int r, int c) const { return matrix[r][c]; }
+  vector<T> &operator[](int r) { return matrix[r]; }
 
   Matrix operator*(const Matrix &rhs) {
     if (matrix[0].size() != rhs.numRows()) {
@@ -49,7 +47,6 @@ public:
     }
     return ret;
   }
-
   Matrix mul(const Matrix &rhs, int mod) const {
     if (matrix[0].size() != rhs.numRows()) {
       throw std::invalid_argument(
@@ -69,7 +66,6 @@ public:
     }
     return ret;
   }
-
   Matrix bigPow(long long p, const int mod) const {
     if (!p) {
       return this->getUnitMatrix();
@@ -81,9 +77,8 @@ public:
       return ret.mul(ret, mod);
     }
   }
-
   static Matrix getUnitMatrix(int n) {
-    vector<vector<int>> mat(n, vector<int>(n, 0));
+    vector<vector<T>> mat(n, vector<T>(n, 0));
     for (int i = 0; i < n; ++i) {
       mat[i][i] = 1;
     }
@@ -96,7 +91,7 @@ public:
   }
 
 private:
-  vector<vector<int>> matrix;
+  vector<vector<T>> matrix;
 };
 
 // driver
