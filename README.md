@@ -1,1 +1,1 @@
-DRY = Don't repeat yourself.
+DRY == Don't repeat yourself.
