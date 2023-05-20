@@ -3,6 +3,13 @@
 
 using namespace std;
 
+void print_div() {
+  for (int i = 0; i < 10; ++i) {
+    cerr << "-";
+  }
+  cerr << endl;
+}
+
 template <typename T> class Matrix {
 public:
   Matrix(T n, T m) { matrix = vector<vector<T>>(n, vector<T>(m, 0)); }
@@ -23,6 +30,7 @@ public:
         cout << endl;
       }
     }
+    print_div();
   }
   size_t numRows() const noexcept { return matrix.size(); }
   size_t numCols() const noexcept {
@@ -126,6 +134,16 @@ public:
     return getUnitMatrix(n);
   }
 
+  Matrix rotate_clock_wise() {
+    Matrix ret = Matrix(this->numCols(), this->numRows());
+    for (int i = 0; i < this->numRows(); ++i) {
+      for (int j = 0; j < this->numCols(); ++j) {
+        ret[j][this->numRows() - i - 1] = this->get(i, j);
+      }
+    }
+    return ret;
+  }
+
 private:
   vector<vector<T>> matrix;
 };
@@ -141,5 +159,9 @@ int main() {
     puts("------------------");
   }
   (lhs * rhs).print();
+  cout << "Before rotation" << endl;
+  lhs.print();
+  cout << "after rotation" << endl;
+  lhs.rotate_clock_wise().print();
   return 0;
 }
