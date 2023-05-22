@@ -20,6 +20,17 @@ bool isPal(const string &s) {
   return true;
 }
 
+long long calcFastPow(int n, int p) {
+  if (p == 0) {
+    return 1;
+  }
+  if (p & 1) {
+    return (long long)n * calcFastPow(n, p - 1);
+  }
+  long long ret = calcFastPow(n, p / 2);
+  return ret * ret;
+}
+
 int main() {
   std::ios_base::sync_with_stdio(false);
   for (string s; cin >> s;) {
