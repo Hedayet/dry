@@ -3,11 +3,12 @@
 
 using namespace std;
 
-void print_div() {
+void print_div(bool err_mode = true) {
+  ostream &out = err_mode ? cerr : cout;
   for (int i = 0; i < 10; ++i) {
-    cerr << "-";
+    out << "-";
   }
-  cerr << endl;
+  out << endl;
 }
 
 template <typename T> class Matrix {
@@ -16,21 +17,14 @@ public:
   Matrix(const vector<vector<T>> &vec) { matrix = vec; }
 
   void print(bool err_mode = true) const {
+    ostream &out = err_mode ? cerr : cout;
     for (auto row : matrix) {
       for (auto item : row) {
-        if (err_mode) {
-          cerr << item << " ";
-        } else {
-          cout << item << " ";
-        }
+        out << item << " ";
       }
-      if (err_mode) {
-        cerr << endl;
-      } else {
-        cout << endl;
-      }
+      out << endl;
     }
-    print_div();
+    print_div(err_mode);
   }
   size_t numRows() const noexcept { return matrix.size(); }
   size_t numCols() const noexcept {
